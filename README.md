@@ -1,4 +1,4 @@
 simple-restful-proj
 ===================
 
-a simple restful api sample, build with Django
+a simple restful api sample, build with Django.
