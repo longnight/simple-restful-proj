@@ -90,7 +90,7 @@ def rest_id(request, id):
 
     if request.method == "DELETE":
         item.delete()
-        return HttpResponse(json.dumps({"error":"deleted yet."}), content_type=ct, status=200)
+        return HttpResponse("deleted.", status=200)
 
     mail = model_to_dict(item)
     mail_dict = {}

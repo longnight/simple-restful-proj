@@ -76,18 +76,19 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
 STATIC_URL = '/static/'
 
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 
 
+
+# modify below account info with yours
+
+# mail sending account
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = '10000@qq.com'
 EMAIL_HOST_PASSWORD = 'passwd'
 
+# recieving mail account
 DEDICATED_EMAIL_ACCOUNT = 'admin@test.com'
