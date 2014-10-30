@@ -1,7 +1,7 @@
 simple-restful-proj
 ===================
 
-a simple restful api sample, build with Django.
+A simple restful api sample, build with Django.
 
 环境：
 Python 2.7.x
@@ -22,18 +22,19 @@ simple-restful-proj/python manage.py runserver localhost:8000
 http://localhost:8000/rest  (这里设计为可接受GET, POST请求)
 http://localhost:8000/rest/[id]   (这里接受GET, PUT, DELETE请求)
 
-
-
-
-
-test:
+Test
 =============================
+通过控制台输入以下，可以自动执行测试，
+测试的目标是API 响应 正确的status 代码：
+simple-restful-proj/python manage.py test
+将会返回OK.
 
+也可以在控制台中进入python shell再手动输入以下各行命令进行测试:
+simple-restful-proj/python manage.py shell
 
 >>> from django.test import Client
 >>> import json
 >>> c = Client()
-
 
 >>> c.get('/rest').status_code
 200
@@ -53,11 +54,6 @@ test:
 >>> response.status_code
 200
 
->>> response = c.delete('/rest/2')
->>> print response
-X-Frame-Options: SAMEORIGIN
-Content-Type: text/html; charset=utf-8
-
-deleted.
+>>> response = c.delete('/rest/1')
 >>> response.status_code
 200

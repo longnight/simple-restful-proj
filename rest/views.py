@@ -13,6 +13,21 @@ ct = "application/json"
 
 @csrf_exempt
 def rest_index(request):
+    """
+    >>> from django.test import Client
+    >>> import json
+    >>> c = Client()
+    >>> c.get('/rest').status_code
+    200
+
+    >>> data = {"email": "tester@test.com", "first_name": "Peter", "last_name": "Pan", "contact_number": "86-13227892789", "title": "Request Title", "content": "Request Content", "link": "https://github.com"}
+    >>> response = c.post('/rest', json.dumps(data), content_type="application/json")
+    <type 'dict'>
+    >>> response.status_code
+    201
+
+
+    """
 
     mails = {
         "items":[],
@@ -46,8 +61,8 @@ def rest_index(request):
         except:
             return HttpResponse(json.dumps({"error":"wrong key"}), content_type=ct, status=404)
 
-        send_to_client(data)
-        send_to_admin(data)
+        # send_to_client(data)
+        # send_to_admin(data)
         return HttpResponse(json.dumps(data, indent=4), content_type=ct, status=201)
 
     m = Rest.objects.all().values()
@@ -59,6 +74,25 @@ def rest_index(request):
 
 @csrf_exempt
 def rest_id(request, id):
+    """
+    >>> from django.test import Client
+    >>> import json
+    >>> c = Client()
+    >>> data = {"email": "tester@test.com", "first_name": "Peter", "last_name": "Pan", "contact_number": "86-13227892789", "title": "Request Title", "content": "Request Content", "link": "https://github.com"}
+    >>> response = c.post('/rest', json.dumps(data), content_type="application/json")
+    <type 'dict'>
+    >>> c.get('/rest/1').status_code
+    200
+
+    >>> response = c.put('/rest/1',json.dumps({"title":"new title"}), content_type="application/json")
+    <type 'dict'>
+    {u'title': u'new title'}
+
+    >>> response = c.delete('/rest/1')
+    >>> response.status_code
+    200
+
+    """
     try:
         item = Rest.objects.get(id=id)
     except ObjectDoesNotExist:
@@ -90,7 +124,7 @@ def rest_id(request, id):
 
     if request.method == "DELETE":
         item.delete()
-        return HttpResponse("deleted.", status=200)
+        return HttpResponse(status=200)
 
     mail = model_to_dict(item)
     mail_dict = {}

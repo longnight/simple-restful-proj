@@ -1,3 +1,9 @@
 from django.test import TestCase
 
-# Create your tests here.
+import unittest
+import doctest
+from rest import views
+
+def load_tests(loader, tests, ignore):
+    tests.addTests(doctest.DocTestSuite(views))
+    return tests
