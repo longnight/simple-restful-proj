@@ -49,7 +49,7 @@ def rest_index(request):
         data = json.loads(request.body)
         print type(data)
         data.pop('id', None)
-        
+
         for k, v in data.items():
             if len(data[k]) < 1:
                 return HttpResponse(json.dumps({"error":"wrong field data, check again pls."}), content_type=ct, status=404)
@@ -69,7 +69,7 @@ def rest_index(request):
     for i in m:
         i['href'] = "http://localhost:8000/rest/" + str(i["id"])
         mails['items'].append(i)
-    
+
     return HttpResponse(json.dumps(mails, indent=4), content_type=ct, status=200)
 
 @csrf_exempt
@@ -99,28 +99,29 @@ def rest_id(request, id):
         return HttpResponse(json.dumps({"error":"id not found"}), content_type=ct, status=404)
 
     if request.method == "OPTIONS":
-        return HttpResponse(json.dumps({"allow":"GET, PUT, OPTIONS"}), status=200)  
+        return HttpResponse(json.dumps({"allow":"GET, PUT, OPTIONS"}), status=200)
 
     if request.method == "PUT":
         rest_fields = Rest._meta.get_all_field_names()
         data = json.loads(request.body)
-        print type(data)
-        print data
         data.pop('id', None)
         for k, v in data.items():
             if k in rest_fields:
                 if len(data[k]) < 1:
-                    return HttpResponse(json.dumps({"error":"not allow null value."}), content_type=ct, status=404)
+                    return HttpResponse(json.dumps({"error":"not allow null \
+                        value."}), content_type=ct, status=404)
                 if k == 'email':
                     if not is_valid_email(data[k]):
-                        return HttpResponse(json.dumps({"error":"wrong email."}), content_type=ct, status=404)
+                        return HttpResponse(json.dumps({"error":"wrong \
+                            email."}), content_type=ct, status=404)
                 setattr(item, k, data[k])
         try:
             item.save()
             item = model_to_dict(item)
             return HttpResponse(json.dumps(item, indent=4), content_type=ct, status=200)
         except:
-            return HttpResponse(json.dumps({"error":"wrong in saving."}), content_type=ct, status=404)
+            return HttpResponse(json.dumps({"error":"wrong in saving."}),\
+             content_type=ct, status=404)
 
     if request.method == "DELETE":
         item.delete()
