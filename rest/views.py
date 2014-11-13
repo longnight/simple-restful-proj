@@ -25,7 +25,10 @@ def rest_index(request):
     <type 'dict'>
     >>> response.status_code
     201
+
+
     """
+
     mails = {
         "items":[],
         "href":"http://localhost:8000/rest",
@@ -58,8 +61,8 @@ def rest_index(request):
         except:
             return HttpResponse(json.dumps({"error":"wrong key"}), content_type=ct, status=404)
 
-        send_to_client(data)
-        send_to_admin(data)
+        # send_to_client(data)
+        # send_to_admin(data)
         return HttpResponse(json.dumps(data, indent=4), content_type=ct, status=201)
 
     m = Rest.objects.all().values()
@@ -88,6 +91,7 @@ def rest_id(request, id):
     >>> response = c.delete('/rest/1')
     >>> response.status_code
     200
+
     """
     try:
         item = Rest.objects.get(id=id)
